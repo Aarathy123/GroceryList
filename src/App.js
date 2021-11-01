@@ -1,22 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import GroceryList from "./groceryList";
 
 function App() {
+  const [groceries, setGroceries] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      const grocery = await fetch(
+        "https://mocki.io/v1/16d39e28-ca44-4a64-a5d5-573e2bf92b64" //created a mock API to fetch initial values
+      ).then((response) => response.json());
+      setGroceries(grocery);
+    }
+    getData();
+  }, []);
+
+  const triggerOnChange = (list) => {};
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <GroceryList items={groceries} onChange={triggerOnChange} />
       </header>
     </div>
   );
